@@ -3,7 +3,9 @@ import tempfile
 
 import pytest
 from application import mongo,create_app
-
+import sys, os
+myPath = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, myPath + '/../')
 
 @pytest.fixture
 def app():
@@ -36,8 +38,8 @@ class AuthActions(object):
             data={'name': username, 'pwd': password}
         )
 
-    # def logout(self):
-    #     return self._client.get('/logout')
+    def logout(self):
+        return self._client.get('/logout')
 
 
 @pytest.fixture

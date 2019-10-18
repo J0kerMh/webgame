@@ -20,7 +20,8 @@ def index():
 
 @bp.route('/signup', methods=['POST'])
 def add_user():
-    json = request.json
+    json = request.form
+
     name = json['name']
     F_pwd = json['F_pwd']
     S_pwd = json['S_pwd']
@@ -28,7 +29,7 @@ def add_user():
         return jsonify("Inconsistent passwords!")
     if name and F_pwd and S_pwd and request.method == 'POST':
         if mongo.db.user.find_one({'name': name}):
-            return  jsonify("User name id existed!")
+            return  jsonify("User name is existed!")
         hashed_pwd = generate_password_hash(F_pwd)
         mongo.db.user.insert_one({'name': name, 'pwd': hashed_pwd, 'gold': 0, 'decoration':[], 'tool': [],
                                        'luck': 0, 'strength': 1})
@@ -37,19 +38,20 @@ def add_user():
         resp.status_code = 200
         return resp
     else:
-        return not_found()
+        return jsonify("Post can not be empty!")
+
 
 @bp.route('/login', methods=['POST'])
 def login():
-    json = request.json
+    json = request.form
     name = json['name']
     pwd = json['pwd']
     if name and pwd and request.method == 'POST':
         user = mongo.db.user.find_one({'name': name})
         if user is None:
-            ret = 'Invalid username!'
+            return 'Invalid username!'
         elif not check_password_hash(user['pwd'], pwd):
-            ret = 'Invalid password!'
+            return 'Invalid password!'
         else:
             session['name'] = name
             ret = 'Login successfully!'
@@ -57,19 +59,19 @@ def login():
             resp.status_code = 200
             return resp
     else:
-        return not_found()
+        return jsonify("Post can not be empty!")
 
 
-@bp.errorhandler(404)
-def not_found(error=None):
-    message = {
-        'status': 404,
-        'message': 'Not Found: ' + request.url,
-    }
-    resp = jsonify(message)
-    resp.status_code = 404
-
-    return resp
+# @bp.errorhandler(404)
+# def not_found(error=None):
+#     message = {
+#         'status': 404,
+#         'message': 'Not Found: ' + request.url,
+#     }
+#     resp = jsonify(message)
+#     resp.status_code = 404
+#
+#     return resp
 
 
 @bp.route('/logout')
@@ -80,7 +82,7 @@ def logout():
     ret = 'You have logout !'
     resp = jsonify(ret)
     resp.status_code = 200
-    redirect(url_for('login'))
+    # redirect(url_for('login'))
     return resp
 
 

@@ -1,12 +1,8 @@
 from flask import (
     Blueprint, flash, g, redirect, escape, request, session, url_for,jsonify
 )
-from werkzeug.security import check_password_hash, generate_password_hash
-# from application.__init__ import  mongo
+
 from bson.json_util import dumps
-import time
-import silly
-import random
 from application.utils import *
 from application import mongo
 

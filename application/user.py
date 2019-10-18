@@ -75,7 +75,7 @@ def do_opts(opts,args1):
             mongo.db.user.update({'name': name}, user)
             ret = 'You earned %d yuan today!' % (user['strength'])
         else:
-            ret = 'You can only hunt for treasure once a day!'
+            ret = 'You can only work once a day!'
         resp = jsonify(ret)
         resp.status_code = 200
         return resp
@@ -143,6 +143,7 @@ def do_opts(opts,args1):
                 if tool['category']=='tool':
                     if not user['tool']: #tool is empyt
                         user['tool'].append(tool)
+                        user['strength'] = user['strength'] + tool['quality']
                         mongo.db.user.update({'name': name}, user)
                         package['item'].remove(tool)
                         mongo.db.package.update({'name': name}, package)
@@ -169,6 +170,7 @@ def do_opts(opts,args1):
                 if decoration['category']=='decoration':
                     if not user['decoration']: #tool is empyt #TODO limit number of decoration
                         user['decoration'].append(decoration)
+                        user['luck'] = user['luck'] + decoration['quality']
                         mongo.db.user.update({'name': name}, user)
                         package['item'].remove(decoration)
                         mongo.db.package.update({'name': name}, package)
@@ -187,6 +189,7 @@ def do_opts(opts,args1):
         tool = user['tool'][0]#TODO type of tool set to dict instead of list
         if item_name == tool['item_name']:
             user['tool'].remove(tool)
+            user['strength'] = user['strength'] - tool['quality']
             mongo.db.user.update({'name': name}, user)
             new_package = check_package_is_full(name)
             if new_package:
@@ -209,6 +212,7 @@ def do_opts(opts,args1):
         decoration = user['decoration'][0]#TODO find by item_name
         if item_name == decoration['item_name']:
             user['decoration'].remove(decoration)
+            user['luck'] = user['luck'] - decoration['quality']
             mongo.db.user.update({'name': name}, user)
             new_package = check_package_is_full(name)
             if new_package:
