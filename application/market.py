@@ -29,7 +29,7 @@ def do_opts1(opts,args1,args2):
             else:
                 mongo.db.market.insert_one({'seller': name, 'item_name':item['item_name'],
                                         'category': item['category'], 'quality':item['quality'],
-                                        'price':price})
+                                        'price':int(price)})
                 package['item'].remove(item)
                 item['on_sale']= True
                 package['item'].append(item)
@@ -91,9 +91,9 @@ def do_opts1(opts,args1,args2):
         if not item:
             ret = 'This item is not existed!'
         else:
-            item['price'] = new_price
+            item['price'] = int(new_price)
             mongo.db.market.update({'item_name': item_name}, item)
-            ret = 'You change the price of item to %d!'%(new_price)
+            ret = 'You change the price of item to %d!'%(item['price'])
         resp = jsonify(ret)
         resp.status_code = 200
         return resp

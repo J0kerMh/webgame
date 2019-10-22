@@ -4,9 +4,9 @@ from application import mongo
 
 
 @pytest.mark.parametrize(('item_name', 'price', 'message'), (
-    ('sdfasf',1,  b'This item is on sale!'),
-    ('sdfasf',2,  b'This item is on shelf!'),
-    ('test2',3,  b'This item is not existed!'),
+    ('test8',1,  b'This item is on sale!'),
+    ('test9',2,  b'This item is on shelf!'),
+    ('sfdsdafs',3,  b'This item is not existed!'),
 ))
 def test_sale_item(client, auth ,item_name,price, message):
     auth.login()
@@ -17,9 +17,9 @@ def test_sale_item(client, auth ,item_name,price, message):
 
 
 @pytest.mark.parametrize(('item_name', 'message'), (
-    ('sdfasf',  b'You buy this item!'),
-    ('sdfasf',  b'You do not have enough gold.'),
-    ('test2',  b'This item is not existed!'),
+    ('test10',  b'You buy this item!'),
+    ('test11',  b'You do not have enough gold.'),
+    ('sdfasdfa',  b'This item is not existed!'),
 ))
 def test_buy_item(client, auth ,item_name, message):
     auth.login()
@@ -31,8 +31,7 @@ def test_buy_item(client, auth ,item_name, message):
 
 @pytest.mark.parametrize(('item_name', 'message'), (
     ('sdfasf',  b'This item is not existed!'),
-    ('sdfasf',  b'You successfully cancelled the sale of this item!'),
-    ('test2',  b'This is not a decoration!'),
+    ('test12',  b'You successfully cancelled the sale of this item!')
 ))
 def test_cancel_sale(client, auth ,item_name, message):
     auth.login()
@@ -44,7 +43,7 @@ def test_cancel_sale(client, auth ,item_name, message):
 
 @pytest.mark.parametrize(('item_name','price', 'message'), (
     ('sdfasf',1,  b'This item is not existed!'),
-    ('sdfasf',2,  b'You change the price of item to'),
+    ('test8',2,  b'You change the price of item to'),
 
 ))
 def test_change_sale(client, auth ,item_name,price, message):

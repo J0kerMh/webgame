@@ -24,10 +24,10 @@ def test_treasure_hunt(client, auth, app):
             assert after_num == before_num + 1
 
 @pytest.mark.parametrize(('item_name', 'message'), (
-    ('sdfasf',  b'This item is on sale, you can not adorn it!'),
+    ('test1',  b'This item is on sale, you can not adorn it!'),
     ('sdfasf',  b'This tool is not existed!'),
-    ('test1',  b'You must take off your tool!'),
-    ('test2',  b'This is not a tool!'),
+    ('test2',  b'You must take off your tool!'),
+    ('test7',  b'This is not a tool!'),
 ))
 def test_adorn_tool(client, auth ,item_name, message):
     auth.login()
@@ -38,10 +38,10 @@ def test_adorn_tool(client, auth ,item_name, message):
 
 
 @pytest.mark.parametrize(('item_name', 'message'), (
-    ('sdfasf',  b'This item is on sale, you can not adorn it!'),
+    ('test8',  b'This item is on sale, you can not adorn it!'),
     ('sdfasf',  b'This decoration is not existed!'),
-    ('test1',  b'You must take off your decoration!'),
-    ('test2',  b'This is not a decoration!'),
+    ('test7',  b'You must take off your decoration!'),
+    ('test3',  b'This is not a decoration!'),
 ))
 def test_adorn_decoration(client, auth ,item_name, message):
     auth.login()
@@ -52,10 +52,8 @@ def test_adorn_decoration(client, auth ,item_name, message):
 
 
 @pytest.mark.parametrize(('item_name', 'message'), (
-    ('sdfasf',  b'This item is on sale, you can not adorn it!'),
-    ('sdfasf',  b'This decoration is not existed!'),
-    ('test1',  b'You must take off your decoration!'),
-    ('test2',  b'This is not a decoration!'),
+    ('sdfasf',  b'This tool is not existed!'),
+    ('test4',  b'You take off this tool successfu4ly!')
 ))
 def test_take_off_tool(client, auth ,item_name, message):
     auth.login()
@@ -65,10 +63,8 @@ def test_take_off_tool(client, auth ,item_name, message):
     assert message in response.data
 
 @pytest.mark.parametrize(('item_name', 'message'), (
-    ('sdfasf',  b'This item is on sale, you can not adorn it!'),
-    ('sdfasf',  b'This decoration is not existed!'),
-    ('test1',  b'You must take off your decoration!'),
-    ('test2',  b'This is not a decoration!'),
+    ('sdfadf',  b'This decoration is not existed!'),
+    ('margaret hugeflip',  b'You take off this decoration successfully!')
 ))
 def test_take_off_decoration(client, auth ,item_name, message):
     auth.login()

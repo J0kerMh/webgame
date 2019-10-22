@@ -35,7 +35,7 @@ def create_app(test_config=None):
     from application import user, market, auth
     application.register_blueprint(user.bp)
     application.register_blueprint(auth.bp)
-    # application.register_blueprint(market.bp)
+    application.register_blueprint(market.bp)
 
 
     return application

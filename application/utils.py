@@ -1,6 +1,5 @@
 import random
-from application.__init__ import  mongo
-
+from application import mongo
 ###########
 day = 600
 package_limit = 10
@@ -22,7 +21,7 @@ def weighted_random(items):
     return x
 
 def check_package_is_full(name):
-    package = mongo.db.package.find_one({'name': name})
+    package = mongo.db.package.find_one({'name': 'yhma'})
     item_list = package['item']
     item_num = len(package['item'])
     if item_num == package_limit:
