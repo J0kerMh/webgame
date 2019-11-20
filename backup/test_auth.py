@@ -1,5 +1,6 @@
 import pytest
 from flask import g, session
+from application import mongo
 
 # def test_register(client, app):
 #     # test that viewing the page renders without template errors

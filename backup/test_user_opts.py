@@ -1,15 +1,12 @@
 import pytest
-from app_sql import *
-
+from application import mongo
+from flask import session
 def test_work(client, auth,app):
     auth.login()
-    before_num = WorkHistory.query.filter_by(name='yhma').count()
-    response = client.post(
-        '/user/opts',
-        data={'opts': 'work', 'args':'test'}
-    )
+    before_num = mongo.db.workHistory.find({'name':'yhma'}).count()
+    response = client.get('/user/work/test')
     with app.app_context():
-        after_num = WorkHistory.query.filter_by(name='yhma').count()
+        after_num = mongo.db.workHistory.find({'name':'yhma'}).count()
         if b'You can only work once a day!' in response.data:
             assert after_num == before_num
         else:
@@ -17,13 +14,10 @@ def test_work(client, auth,app):
 
 def test_treasure_hunt(client, auth, app):
     auth.login()
-    before_num = TreasureHuntHistory.query.filter_by(name='yhma').count()
-    response = client.post(
-        '/user/opts',
-        data={'opts': 'treasure_hunt', 'args': 'test'}
-    )
+    before_num = mongo.db.treasureHuntHistory.find({'name': 'yhma'}).count()
+    response = client.get('/user/treasure_hunt/test')
     with app.app_context():
-        after_num = TreasureHuntHistory.query.filter_by(name='yhma').count()
+        after_num = mongo.db.treasureHuntHistory.find({'name': 'yhma'}).count()
         if b'You can only hunt for treasure once a day!' in response.data:
             assert after_num == before_num
         else:
@@ -37,9 +31,8 @@ def test_treasure_hunt(client, auth, app):
 ))
 def test_adorn_tool(client, auth ,item_name, message):
     auth.login()
-    response = client.post(
-        '/user/opts',
-        data={'opts': 'adorn_tool', 'args': item_name}
+    response = client.get(
+        '/user/adorn_tool/{item_name}'.format(item_name=item_name)
     )
     assert message in response.data
 
@@ -52,9 +45,8 @@ def test_adorn_tool(client, auth ,item_name, message):
 ))
 def test_adorn_decoration(client, auth ,item_name, message):
     auth.login()
-    response = client.post(
-        '/user/opts',
-        data={'opts': 'adorn_decoration', 'args': item_name}
+    response = client.get(
+        '/user/adorn_decoration/{item_name}'.format(item_name=item_name)
     )
     assert message in response.data
 
@@ -65,9 +57,8 @@ def test_adorn_decoration(client, auth ,item_name, message):
 ))
 def test_take_off_tool(client, auth ,item_name, message):
     auth.login()
-    response = client.post(
-        '/user/opts',
-        data={'opts': 'take_off_tool', 'args': item_name}
+    response = client.get(
+        '/user/take_off_tool/{item_name}'.format(item_name=item_name)
     )
     assert message in response.data
 
@@ -77,8 +68,7 @@ def test_take_off_tool(client, auth ,item_name, message):
 ))
 def test_take_off_decoration(client, auth ,item_name, message):
     auth.login()
-    response = client.post(
-        '/user/opts',
-        data={'opts': 'take_off_decoration', 'args': item_name}
+    response = client.get(
+        '/user/take_off_decoration/{item_name}'.format(item_name=item_name)
     )
     assert message in response.data

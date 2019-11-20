@@ -1,4 +1,5 @@
 import pytest
+from application import mongo
 
 
 
@@ -9,9 +10,8 @@ import pytest
 ))
 def test_sale_item(client, auth ,item_name,price, message):
     auth.login()
-    response = client.post(
-        '/market',
-        data={'opts': 'sale_item', 'args1': item_name,'args2':price}
+    response = client.get(
+        '/market/sale_item/{item_name}/{price}'.format(item_name=item_name,price = price)
     )
     assert message in response.data
 
@@ -23,9 +23,8 @@ def test_sale_item(client, auth ,item_name,price, message):
 ))
 def test_buy_item(client, auth ,item_name, message):
     auth.login()
-    response = client.post(
-        '/market',
-        data={'opts': 'buy_item', 'args1': item_name, 'args2': 'test'}
+    response = client.get(
+        '/market/buy_item/{item_name}/test'.format(item_name=item_name)
     )
     assert message in response.data
 
@@ -36,9 +35,8 @@ def test_buy_item(client, auth ,item_name, message):
 ))
 def test_cancel_sale(client, auth ,item_name, message):
     auth.login()
-    response = client.post(
-        '/market',
-        data={'opts': 'cancel_sale', 'args1': item_name, 'args2': 'test'}
+    response = client.get(
+        '/market/cancel_sale/{item_name}/test'.format(item_name=item_name)
     )
     assert message in response.data
 
@@ -50,9 +48,8 @@ def test_cancel_sale(client, auth ,item_name, message):
 ))
 def test_change_sale(client, auth ,item_name,price, message):
     auth.login()
-    response = client.post(
-        '/market',
-        data={'opts': 'change_sale', 'args1': item_name, 'args2': price}
+    response = client.get(
+        '/market/change_sale/{item_name}/{price}'.format(item_name=item_name,price = price)
     )
     assert message in response.data
 

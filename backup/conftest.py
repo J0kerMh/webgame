@@ -1,7 +1,8 @@
+import os
 import tempfile
 
 import pytest
-from app_sql import db,create_app
+from application import mongo,create_app
 import sys, os
 myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + '/../')
